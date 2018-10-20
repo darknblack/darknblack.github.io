@@ -8,3 +8,5 @@ hosting
 namecheap
 
 kitsensink
+
+react-starter-kit
