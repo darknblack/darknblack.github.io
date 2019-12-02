@@ -37,19 +37,20 @@
       player = new YT.Player('player', {
         // height: '200',
         // width: '300',
-        playerVars: { autoplay: 1, controls: 0, showinfo: 0 },
-        videoId: getUrlParam("video", "9WgIYLkjJC8"),
+        // playerVars: { 'autoplay': 1, 'controls': 0, 'showinfo': 0 },
         events: {
             'onReady': onPlayerReady
         }
       });
+      player.setLoop(true);
+      player.loadVideoById(getUrlParam("video", "9WgIYLkjJC8"),
     }
 
     // when ready, wait for clicks
     function onPlayerReady(event) {
       var player = event.target;
       iframe = $('#player');
-      setupListener();
+      // setupListener();
     }
 
     function setupListener() {
