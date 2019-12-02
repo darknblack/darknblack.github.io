@@ -5,23 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://www.youtube.com/iframe_api"></script>
-  <title>Document</title>
+  <title>Xsplit Youtube</title>
+  <style>
+      html, body {
+          display: flex;
+          flex: 1;
+          height: 100%;
+      }
+      body {
+          margin: 0;
+          padding: 0;
+          justify-content: center;
+          align-items: center;
+      }
+      #player {
+          display: flex;
+          width: 100%;
+          height: 100%;
+      }
+  </style>
 </head>
 
 <body>
-  <button>play fullscreen</button><br>
   <div id="player"></div>
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/NPRmJwSOsLY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <!-- <script>
+  <script>
     var player, iframe;
     var $ = document.querySelector.bind(document);
 
     // init player
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        height: '200',
-        width: '300',
-        videoId: 'NPRmJwSOsLY',
+        // height: '200',
+        // width: '300',
+        playerVars: { 'autoplay': 1, 'controls': 0, 'showinfo': 0 },
+        videoId: getUrlParam("video", "9WgIYLkjJC8"),
         events: {
             'onReady': onPlayerReady
         }
@@ -36,17 +53,37 @@
     }
 
     function setupListener() {
-        $('button').addEventListener('click', playFullscreen);
+      $('button').addEventListener('click', playFullscreen);
+    }
+
+    function closeFullScreen() {
+      var requestCloseFullScreen = iframe.cancelFullScreen || iframe.webkitCancelFullScreen;
+      requestCloseFullScreen.bind(iframe)();
     }
 
     function playFullscreen() {
       player.playVideo(); //won't work on mobile
 
       var requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
-      if (requestFullScreen) {
+      if (requestFullScreen)
         requestFullScreen.bind(iframe)();
-      }
     }
-  </script> -->
+
+    function getUrlVars() {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+          vars[key] = value;
+      });
+      return vars;
+    }
+
+    function getUrlParam(parameter, defaultvalue){
+      var urlparameter = defaultvalue;
+      if(window.location.href.indexOf(parameter) > -1){
+          urlparameter = getUrlVars()[parameter];
+          }
+      return urlparameter;
+    }
+  </script>
 </body>
 </html>
