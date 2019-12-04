@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://www.youtube.com/iframe_api"></script>
-  <title>Xsplit Youtube</title>
+  <title>Xsplit Youtube VCam</title>
   <style>
       html, body {
           display: flex;
@@ -29,22 +29,18 @@
 <body>
   <div id="player"></div>
   <script>
-    var player, iframe;
+    var player;
     var $ = document.querySelector.bind(document);
 
     var youtubeID = getUrlParam("video", "61QSHrOuGEA");
 
-    var i = 0;
-
     // init player
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
-        // height: '200',
-        // width: '300',
         playerVars: {
           autoplay: 1,
-          // controls: 0,
-          // showinfo: 0,
+          controls: 0,
+          showinfo: 0,
           rel: 0,
           modestbranding: 1
         },
@@ -59,31 +55,35 @@
       if (event.data == YT.PlayerState.ENDED) {
         player.seekTo(0);
         player.playVideo();
-        console.log(++i)
       }
     }
 
-    // when ready, wait for clicks
     function onPlayerReady(event) {
-      document.getElementById("player").focus();
+      // const keyboardEvent = document.createEvent("KeyboardEvent");
+      // const initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+      // keyboardEvent[initMethod](
+      //   "keydown", // event type: keydown, keyup, keypress
+      //   true,      // bubbles
+      //   true,      // cancelable
+      //   window,    // view: should be window
+      //   false,     // ctrlKey
+      //   false,     // altKey
+      //   false,     // shiftKey
+      //   false,     // metaKey
+      //   70,        // keyCode: unsigned long - the virtual key code, else 0
+      //   0          // charCode: unsigned long - the Unicode character associated with the depressed key, else 0
+      // );
+
+
+      setTimeout(() => {
+        const video = document.getElementById("player");
+        video.contentWindow.document.body.focus();
+
+        console.log("Done focusing")
+      }, 1000)
+
       player.loadVideoById(youtubeID);
-      iframe = $('#player');
-    }
-
-    function setupListener() {
-      $('button').addEventListener('click', playFullscreen);
-    }
-
-    function closeFullScreen() {
-      var requestCloseFullScreen = iframe.cancelFullScreen || iframe.webkitCancelFullScreen;
-      requestCloseFullScreen.bind(iframe)();
-    }
-
-    function playFullscreen() {
-      player.playVideo();
-      var requestFullScreen = iframe.requestFullScreen || iframe.mozRequestFullScreen || iframe.webkitRequestFullScreen;
-      if (requestFullScreen)
-        requestFullScreen.bind(iframe)();
     }
 
     function getUrlVars() {
@@ -96,9 +96,8 @@
 
     function getUrlParam(parameter, defaultvalue){
       var urlparameter = defaultvalue;
-      if(window.location.href.indexOf(parameter) > -1){
-          urlparameter = getUrlVars()[parameter];
-          }
+      if(window.location.href.indexOf(parameter) > -1)
+        urlparameter = getUrlVars()[parameter];
       return urlparameter;
     }
   </script>
