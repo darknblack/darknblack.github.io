@@ -30,10 +30,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     var player;
-    var $ = document.querySelector.bind(document);
-
     var youtubeID = getUrlParam("video", "61QSHrOuGEA");
-
     var isPlaying = false;
     var isReady = false;
     var duration = 0;
@@ -42,7 +39,26 @@
       if(!isReady)
         return;
 
-      if(event.keyCode === 75) {
+      // 1 - 9
+      for(let i = 1; i <= 9; i++) {
+        if(event.keyCode === 49 + i)
+          player.seekTo(duration * (i*.1))
+      }
+
+      // 0
+      if(event.keyCode === 48)
+        player.seekTo(0);
+
+      // HOME
+      if(event.keyCode === 36)
+        player.seekTo(0);
+
+      // END
+      if(event.keyCode === 35)
+        player.seekTo(duration - 1);
+
+      // k or spacebar
+      if(event.keyCode === 75 || event.keyCode === 32) {
         if(isPlaying)
           player.pauseVideo();
         else
@@ -57,9 +73,6 @@
           player.seekTo(currentTime + 5)
       }
     })
-
-
-
 
     // init player
     function onYouTubeIframeAPIReady() {
