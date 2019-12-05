@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://www.youtube.com/iframe_api"></script>
   <title>Xsplit Youtube VCam</title>
   <style>
       html, body {
@@ -28,11 +27,27 @@
 
 <body>
   <div id="player"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script>
     var player;
     var $ = document.querySelector.bind(document);
 
     var youtubeID = getUrlParam("video", "61QSHrOuGEA");
+
+    var isPlaying = false;
+    var isReady = false;
+
+    document.addEventListener("keydown", function(event) {
+      if(!isReady)
+        return;
+
+      if(event.keyCode === 75) {
+        if(isPlaying)
+          player.pauseVideo();
+        else
+          player.playVideo();
+      }
+    })
 
     // init player
     function onYouTubeIframeAPIReady() {
@@ -56,33 +71,26 @@
         player.seekTo(0);
         player.playVideo();
       }
+
+      if(event.data === YT.PlayerState.PLAYING)
+        isPlaying = true;
+
+      if(event.data === YT.PlayerState.PAUSED)
+        isPlaying = false;
     }
 
     function onPlayerReady(event) {
-      // const keyboardEvent = document.createEvent("KeyboardEvent");
-      // const initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+      var playerEl = document.getElementById("player");
+      playerEl.addEventListener("keypress", function(event) {
+        if(event.keyCode == 9) {
+          if(player.getPlayerState() == 1)
+            player.pauseVideo();
+          else
+            player.playVideo();
+        }
+      });
 
-      // keyboardEvent[initMethod](
-      //   "keydown", // event type: keydown, keyup, keypress
-      //   true,      // bubbles
-      //   true,      // cancelable
-      //   window,    // view: should be window
-      //   false,     // ctrlKey
-      //   false,     // altKey
-      //   false,     // shiftKey
-      //   false,     // metaKey
-      //   70,        // keyCode: unsigned long - the virtual key code, else 0
-      //   0          // charCode: unsigned long - the Unicode character associated with the depressed key, else 0
-      // );
-
-
-      setTimeout(() => {
-        const video = document.getElementById("player");
-        video.contentWindow.document.body.focus();
-
-        console.log("Done focusing")
-      }, 1000)
-
+      isReady = true;
       player.loadVideoById(youtubeID);
     }
 
