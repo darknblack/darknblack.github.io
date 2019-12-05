@@ -36,6 +36,7 @@
 
     var isPlaying = false;
     var isReady = false;
+    var duration = 0;
 
     document.addEventListener("keydown", function(event) {
       if(!isReady)
@@ -47,7 +48,18 @@
         else
           player.playVideo();
       }
+
+      if(event.keyCode === 37 || event.keyCode === 39) {
+        var currentTime = player.getCurrentTime();
+        if(event.keyCode === 37)
+          player.seekTo(currentTime - 5)
+        else
+          player.seekTo(currentTime + 5)
+      }
     })
+
+
+
 
     // init player
     function onYouTubeIframeAPIReady() {
@@ -72,25 +84,26 @@
         player.playVideo();
       }
 
-      if(event.data === YT.PlayerState.PLAYING)
+      if(event.data === YT.PlayerState.PLAYING) {
         isPlaying = true;
+        isReady = true;
+        duration = player.getDuration()
+      }
 
       if(event.data === YT.PlayerState.PAUSED)
         isPlaying = false;
     }
 
-    function onPlayerReady(event) {
-      var playerEl = document.getElementById("player");
-      playerEl.addEventListener("keypress", function(event) {
-        if(event.keyCode == 9) {
-          if(player.getPlayerState() == 1)
-            player.pauseVideo();
-          else
-            player.playVideo();
-        }
-      });
+    document.addEventListener("keypress", function(event) {
+      if(event.keyCode == 9) {
+        if(player.getPlayerState() == 1)
+          player.pauseVideo();
+        else
+          player.playVideo();
+      }
+    });
 
-      isReady = true;
+    function onPlayerReady(event) {
       player.loadVideoById(youtubeID);
     }
 
