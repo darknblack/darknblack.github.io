@@ -46,7 +46,7 @@
       // 1 - 9
       for(let i = 0; i < 10; i++) {
         if(event.keyCode === 49 + i)
-          player.seekTo(duration * (i*.1))
+          player.seekTo(duration * ((i + 1) * 0.1))
       }
 
       // 0
