@@ -43,16 +43,17 @@
       if(!isReady)
         return;
 
+      // 0
+      if(event.keyCode === 48)
+        player.seekTo(0);
+
       // 1 - 9
       for(let i = 0; i < 10; i++) {
         if(event.keyCode === 49 + i)
           player.seekTo(duration * ((i + 1) * 0.1))
       }
 
-      // 0
-      if(event.keyCode === 48)
-        player.seekTo(0);
-
+      // J OR L
       if(event.keyCode === 74 || event.keyCode === 76) {
         var currentTime = player.getCurrentTime();
 
@@ -63,6 +64,14 @@
           player.seekTo(currentTime + 10);
       }
 
+      // LEFT OR RIGHT
+      if(event.keyCode === 37 || event.keyCode === 39) {
+        var currentTime = player.getCurrentTime();
+        if(event.keyCode === 37)
+          player.seekTo(currentTime - 5)
+        else
+          player.seekTo(currentTime + 5)
+      }
 
       // HOME
       if(event.keyCode === 36)
@@ -74,20 +83,12 @@
         player.seekTo(duration - 1);
       }
 
-      // k or spacebar
+      // K or SPACEBAR
       if(event.keyCode === 75 || event.keyCode === 32) {
         if(isPlaying)
           player.pauseVideo();
         else
           player.playVideo();
-      }
-
-      if(event.keyCode === 37 || event.keyCode === 39) {
-        var currentTime = player.getCurrentTime();
-        if(event.keyCode === 37)
-          player.seekTo(currentTime - 5)
-        else
-          player.seekTo(currentTime + 5)
       }
     })
 
