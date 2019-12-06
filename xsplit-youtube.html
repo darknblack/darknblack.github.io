@@ -53,6 +53,17 @@
       if(event.keyCode === 48)
         player.seekTo(0);
 
+      if(event.keyCode === 37 || event.keyCode === 39) {
+        var currentTime = player.getCurrentTime();
+
+        if (event.keyCode === 74)
+          player.seekTo(currentTime - 10);
+
+        else
+          player.seekTo(currentTime + 10);
+      }
+
+
       // HOME
       if(event.keyCode === 36)
         player.seekTo(0);
