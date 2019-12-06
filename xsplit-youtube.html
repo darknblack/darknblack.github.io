@@ -44,7 +44,7 @@
         return;
 
       // 1 - 9
-      for(let i = 1; i <= 9; i++) {
+      for(let i = 0; i < 10; i++) {
         if(event.keyCode === 49 + i)
           player.seekTo(duration * (i*.1))
       }
