@@ -58,8 +58,10 @@
         player.seekTo(0);
 
       // END
-      if(event.keyCode === 35)
+      if(event.keyCode === 35) {
+        player.pauseVideo();
         player.seekTo(duration - 1);
+      }
 
       // k or spacebar
       if(event.keyCode === 75 || event.keyCode === 32) {
